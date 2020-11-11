@@ -50,7 +50,6 @@ module.exports = {
     },
 
     getController: function () {
-        // return Controller;
         if (controller) return controller;
         return (controller = new Controller(
             this.getConfig(),
