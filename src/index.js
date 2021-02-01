@@ -4,7 +4,7 @@ const Routes = require("./routes")
 const Config = require("./config")
 
 const fastify = require('fastify')({
-    logger : true
+    logger : false
 })
 
 // Connect to DB

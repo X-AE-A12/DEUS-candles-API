@@ -15,8 +15,8 @@ const ping = () => {
 const getIntervals = async () => {
     try {
         const doc = await InfoModel.findOne({}).lean()
-        if (!doc || !doc.length) return []
-        return doc.supportedIntervals
+        if (!doc) return []
+        return doc.intervals
     } catch (err) {
         throw boom.boomify(err)
     }
@@ -25,8 +25,8 @@ const getIntervals = async () => {
 const getProtocols = async () => {
     try {
         const doc = await InfoModel.findOne({}).lean()
-        if (!doc || !doc.length) return []
-        return doc.supportedProtocols
+        if (!doc) return []
+        return doc.protocols
     } catch (err) {
         throw boom.boomify(err)
     }
@@ -34,16 +34,9 @@ const getProtocols = async () => {
 
 const getPools = async () => {
     try {
-        return await InfoModel.aggregate([
-            {
-              $match: {}
-            },
-            {
-              $project: {
-                  _id: 0,
-              }
-            },
-        ])
+        const doc = await InfoModel.findOne({}).lean()
+        if (!doc) return []
+        return doc.pools
     } catch (err) {
         throw boom.boomify(err)
     }
