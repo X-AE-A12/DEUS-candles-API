@@ -74,13 +74,15 @@ const getCandlesticks = async (req, reply) => {
           },
         ]).allowDiskUse(true)
 
-        if (live) {
-            const promise2 = LiveCandlestickModel.findOne({ poolContract, interval }).select([ "-_id", "t", "o", "h", "l", "c", "v" ]).lean()
-            const [ candlestickHistory, currentCandlestick ] = await Promise.all([ promise1, promise2 ])
-            return [ ...candlestickHistory, currentCandlestick ]
-        } else {
-            return await promise1
-        }
+        return await promise1
+        // NOT ACTIVATED YET
+        // if (live) {
+        //     const promise2 = LiveCandlestickModel.findOne({ poolContract, interval }).select([ "-_id", "t", "o", "h", "l", "c", "v" ]).lean()
+        //     const [ candlestickHistory, currentCandlestick ] = await Promise.all([ promise1, promise2 ])
+        //     return [ ...candlestickHistory, currentCandlestick ]
+        // } else {
+        //     return await promise1
+        // }
 
     } catch (err) {
         throw boom.boomify(err)
