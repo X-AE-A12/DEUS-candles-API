@@ -1,7 +1,7 @@
 {
-  "name": "deus-candles-api",
+  "name": "dr-collector-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "API for Dr. Collector transaction data",
   "main": "index.js",
   "scripts": {
     "start": "node .",
@@ -14,6 +14,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fastify": "^3.8.0",
-    "mongoose": "^5.10.13"
+    "joi": "^17.3.0",
+    "mongoose": "^5.11.8"
   }
 }

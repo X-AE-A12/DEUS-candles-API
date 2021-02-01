@@ -1,14 +1,5 @@
-module.exports = (controller) => {
-    return [
-      {
-        method: 'GET',
-        url: '/ping',
-        handler: controller.ping
-      },
-      {
-        method: 'GET',
-        url: '/candles',
-        handler: controller.getCandles
-      }
-    ]
-}
+const v1Routes = require("./v1/routes")
+
+module.exports = [
+    ...v1Routes
+]
