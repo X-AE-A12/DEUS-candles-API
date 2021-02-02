@@ -4,7 +4,9 @@ const Config = require("../config")
 const CandlestickModel = require("./models/candlestick.model")
 const LiveCandlestickModel = require("./models/liveCandlestick.model")
 const TransactionModel = require("./models/transaction.model")
-const InfoModel = require("./models/info.model")
+const ProtocolModel = require("./models/protocol.model")
+const PoolModel = require("./models/pool.model")
+const IntervalModel = require("./models/interval.model")
 
 const ping = () => {
     return {
@@ -14,9 +16,9 @@ const ping = () => {
 
 const getIntervals = async () => {
     try {
-        const doc = await InfoModel.findOne({}).lean()
-        if (!doc) return []
-        return doc.intervals
+        const docs = await IntervalModel.find({}).select("-_id -__v").lean()
+        if (!docs) return []
+        return docs
     } catch (err) {
         throw boom.boomify(err)
     }
@@ -24,9 +26,9 @@ const getIntervals = async () => {
 
 const getProtocols = async () => {
     try {
-        const doc = await InfoModel.findOne({}).lean()
-        if (!doc) return []
-        return doc.protocols
+        const docs = await ProtocolModel.find({}).select("-_id -__v").lean()
+        if (!docs) return []
+        return docs
     } catch (err) {
         throw boom.boomify(err)
     }
@@ -34,9 +36,9 @@ const getProtocols = async () => {
 
 const getPools = async () => {
     try {
-        const doc = await InfoModel.findOne({}).lean()
-        if (!doc) return []
-        return doc.pools
+        const docs = await PoolModel.find({}).select("-_id -__v").lean()
+        if (!docs) return []
+        return docs
     } catch (err) {
         throw boom.boomify(err)
     }
