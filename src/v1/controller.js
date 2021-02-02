@@ -1,6 +1,8 @@
 const boom = require('@hapi/boom')
 
 const Config = require("../config")
+const Helpers = require("./helpers")
+
 const CandlestickModel = require("./models/candlestick.model")
 const LiveCandlestickModel = require("./models/liveCandlestick.model")
 const TransactionModel = require("./models/transaction.model")
@@ -95,7 +97,7 @@ const getCandlesticks = async (req, reply) => {
 const getTransactions = async (req, reply) => {
     try {
         const { poolContract, from, to } = req.query
-        return await TransactionModel.aggregate([
+        const promise1 = TransactionModel.aggregate([
             {
               $match: {
                 poolContract: poolContract,
@@ -121,6 +123,22 @@ const getTransactions = async (req, reply) => {
               }
             },
         ]).allowDiskUse(true)
+
+        const promise2 = Helpers.getPoolFromPoolContract(poolContract)
+        const [ results, poolInfo ] = await Promise.all([ promise1, promise2 ])
+        if (!poolInfo) throw new Error("poolContract doesn't exist")
+
+        const { tokenName, pairName, inversePrice } = poolInfo
+        const priceDirection = (inversePrice)
+            ? `${pairName}:${tokenName}`
+            : `${tokenName}:${pairName}`;
+
+        return {
+            tokenName: tokenName,
+            pairName: pairName,
+            priceDirection: priceDirection,
+            results: results
+        }
     } catch (err) {
         throw boom.boomify(err)
     }
